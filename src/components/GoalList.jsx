@@ -10,21 +10,20 @@ class GoalList extends Component {
 		goalRef.on('value', snap => {
 			let goals = [];
 			snap.forEach(goal => {
-				const {email, title} = goal.val();
+				const {email, title, team} = goal.val();
 				const serverKey = goal.key; //get the firebase assigned key of the goal
 				
-				goals.push({email, title, serverKey});
-				console.log('goal', goal);
+				goals.push({email, title, serverKey, team});
+				
 
 			})
 
-			console.log('goals', goals);
 			this.props.setGoals(goals);
 		})
 	}
 
 	render () {
-		console.log('this.props.goals', this.props.goals);
+		
 		return (
 			<div>{this.props.goals.map((goal, index) => {
 				return (

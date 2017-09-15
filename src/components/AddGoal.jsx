@@ -7,15 +7,16 @@ class AddGoal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title:''
+			title:'',
+			team:''
 		}
 	}
 
 	addGoal() {
 		console.log('this', this);
-		const {title} = this.state;
+		const {title, team} = this.state;
 		const {email} = this.props.user;
-		goalRef.push({email, title});
+		goalRef.push({email, title, team});
 	}
 	
 	render() {
@@ -27,6 +28,15 @@ class AddGoal extends Component {
 					className = "form-control" 
 					style = {{marginRight : '5px'}} 
 					onChange = {event => this.setState({title: event.target.value})} />
+					<select style = {{marginRight: '5px', height: "35px", borderRadius: "10px"}} onChange = {event => this.setState({team: event.target.value})}>
+						<option value="">Select a team</option>
+					 	{this.props.teams.map((team, index) => {
+					 		return (
+					 			<option value={team} key={index}>{team}</option>							
+					 		)
+					 	})}
+					 	
+					 </select>
 					<button className="btn btn-success" type="button"
 					onClick = {()=>this.addGoal()}
 					>Submit</button>
@@ -38,7 +48,7 @@ class AddGoal extends Component {
 }
 
 function mapStateToProps(state) {
-	const {user} =  state;
-	return {user}
+	const {user, teams} =  state;
+	return {user, teams}
 }
 export default connect(mapStateToProps, null)(AddGoal);

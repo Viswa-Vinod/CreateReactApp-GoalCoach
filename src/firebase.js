@@ -12,4 +12,5 @@ const config =  {
   export const firebaseApp = firebase.initializeApp(config);
   export const goalRef = firebase.database().ref('goals'); //defines a new reference in firebase with key 'goals'
   export const completeGoalRef = firebase.database().ref('completeGoals');
+  export const userRef = firebase.database().ref('users');
  

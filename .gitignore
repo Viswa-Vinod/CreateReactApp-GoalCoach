@@ -19,3 +19,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# some text files with codes created for various purposes
+CodeTeaminApp.txt
