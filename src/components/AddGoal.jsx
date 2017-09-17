@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {addGoal} from '../actions';
 import {goalRef} from '../firebase';
 
 class AddGoal extends Component {
@@ -12,14 +13,16 @@ class AddGoal extends Component {
 		}
 	}
 
-	addGoal() {
-		console.log('this', this);
+	addNewGoal() {
+		
 		const {title, team} = this.state;
 		const {email} = this.props.user;
 		goalRef.push({email, title, team});
+		
 	}
 	
 	render() {
+		
 		return (
 			<div className="form-inline">
 				<div className="form-group">
@@ -38,7 +41,7 @@ class AddGoal extends Component {
 					 	
 					 </select>
 					<button className="btn btn-success" type="button"
-					onClick = {()=>this.addGoal()}
+					onClick = {()=>this.addNewGoal()}
 					>Submit</button>
 				</div>
 
@@ -51,4 +54,4 @@ function mapStateToProps(state) {
 	const {user, teams} =  state;
 	return {user, teams}
 }
-export default connect(mapStateToProps, null)(AddGoal);
+export default connect(mapStateToProps, {addGoal})(AddGoal);

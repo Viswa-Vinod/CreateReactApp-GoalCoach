@@ -1,27 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {goalRef} from '../firebase';
 import {setGoals} from '../actions';
 import GoalItem from './GoalItem';
 
 class GoalList extends Component {
 
-	componentDidMount() {
-		goalRef.on('value', snap => {
-			let goals = [];
-			snap.forEach(goal => {
-				const {email, title, team} = goal.val();
-				const serverKey = goal.key; //get the firebase assigned key of the goal
-				
-				goals.push({email, title, serverKey, team});
-				
-
-			})
-
-			this.props.setGoals(goals);
-		})
-	}
-
+	
 	render () {
 		
 		return (

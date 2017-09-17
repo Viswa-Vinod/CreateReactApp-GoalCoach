@@ -18,21 +18,7 @@ class SignUp extends Component {
 		}
 	}
 
-	componentDidMount() {
-		
-
-		userRef.on('value', snap => {
-			// console.log('snap', snap.val());
-			let teams = [];
-			snap.forEach(user => {
-				const {team} = user.val();
-				
-				if (teams.indexOf(team) < 0) teams.push(team);
-			});
-			
-			this.props.setTeams(teams);
-		}, error => {console.log(error)})
-	}
+	
 
 	signUp() {
 		console.log('state', this.state);

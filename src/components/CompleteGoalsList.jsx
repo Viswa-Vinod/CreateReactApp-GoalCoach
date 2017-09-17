@@ -13,7 +13,7 @@ class CompleteGoalsList extends Component {
 				const {email, title, team} = completeGoal.val();
 				completeGoals.push({email, title, team});
 			});
-			console.log('completeGoals', completeGoals);
+			
 			this.props.setCompleted(completeGoals);
 		})
 	}

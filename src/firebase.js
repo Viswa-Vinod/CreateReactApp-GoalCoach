@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 
+
 const config =  {
     apiKey: "AIzaSyCfqjl-d629JbHYTK3qaYo-OW9Y60NQxwk",
     authDomain: "goalcoach-7fbcb.firebaseapp.com",
@@ -13,4 +14,7 @@ const config =  {
   export const goalRef = firebase.database().ref('goals'); //defines a new reference in firebase with key 'goals'
   export const completeGoalRef = firebase.database().ref('completeGoals');
   export const userRef = firebase.database().ref('users');
+  export const connectedRef = firebase.database().ref('.info/connected');
+  export const userListRef = firebase.database().ref('onlineUsers');
+  export const signedInUserRef = userListRef.push();
  

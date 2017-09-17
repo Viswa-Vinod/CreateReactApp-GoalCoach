@@ -1,35 +1,56 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {setTeams} from '../actions';
-import {firebaseApp, userRef} from '../firebase';
+
+import {firebaseApp, userListRef} from '../firebase';
 import AddGoal from './AddGoal';
 import GoalList from './GoalList';
 import CompleteGoalsList from './CompleteGoalsList';
+import OnlineUsers from './OnlineUsers';
 
 class App extends Component {
+	
+	constructor (props) {
+		super(props);
+		this.state = {
+			usersWithStatus:[],
+			teams:[],
+			error: {
+				message:''
+			}
+		}
+	  
+		
+	}
+	
+	componentWillMount() {
+
+				userListRef.on('value', snap => {
+					let usersWithStatus = [];
+						snap.forEach(user => {
+						const {email, status} = user.val();
+
+						usersWithStatus.push({email, status});
+						
+					})
+
+				this.setState({usersWithStatus: usersWithStatus});
+				})
+
+	}
 
 	signOut() {
 		firebaseApp.auth().signOut();
 	}
 
-	componentDidMount() {
-		
-		userRef.on('value', snap => {
-			
-			let teams = [];
-			snap.forEach(user => {
-				const {team} = user.val();
-				
-				if (teams.indexOf(team) < 0) teams.push(team);
-			});
-
-			this.props.setTeams(teams);
-		}, error => {console.log(error)})
-	}
-
+	
 	render() {
-		//console.log('redux state', this.props.teams);
+		
+  
+		
+		
 		return (
+
+
 			<div className = "row" style={{marginTop: '50px'}}>
 			 	
 
@@ -46,16 +67,26 @@ class App extends Component {
 					<button className = "btn btn-danger" onClick = {() => this.signOut()}>Sign Out </button>
 				 </div>
 
+				<div className = "col-xs-3" style={{border: "2px solid black"}}>						
+   				 	{
+   				 			this.state.usersWithStatus.map((user, index) => {
+   				 				return (
+   				 					<OnlineUsers key={index} user={user} /> 
+   				 				)
+   				 			})	
+   				 	}
+				</div>
 				
-					
 			</div>	
 		)
 	}
 }
 
+
+
 function mapStateToProps(state) {
-	const {teams} = state;
-	return {teams};
+	const {email} = state;
+	return {email};
 }
 	
-export default connect(mapStateToProps, {setTeams})(App); //this connects App component to the redux state
+export default connect(mapStateToProps, null)(App); //this connects App component to the redux state

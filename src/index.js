@@ -1,35 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import createHistory from 'history/createBrowserHistory';
 
-import reducer from './reducers';
-import {logUser} from './actions';
+import {loadTeams, configureUserPresence, loadGoals, recordUser, store, setUserStatus} from './initializeApp';
+import {firebaseApp} from './firebase';
+
 import App from './components/App';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import {Router, Route} from 'react-router-dom';
-import {firebaseApp} from './firebase';
-import createHistory from 'history/createBrowserHistory';
+
+ 
 
 const history = createHistory();
-const store = createStore(reducer);
 
+	loadTeams();
+
+	
 	firebaseApp.auth().onAuthStateChanged(user => {
 		if (user) {
+
+			console.log('logged in user: ', user.email);
 			
-			// console.log('user has signed in or up', user);
+			configureUserPresence(user);
+			
+			loadGoals();
+
 			const {email}  = user;
-			store.dispatch(logUser(email));
+			recordUser(email);
 			history.push("/app");
-			// history.push('/app');
+			
 		} else {
-			// console.log('no user');
+			// console.log('user signed out');
+			setUserStatus("offline");
 			history.replace('/signin');
 		}
 
 	});
 
+	 
 
 
 ReactDOM.render(				

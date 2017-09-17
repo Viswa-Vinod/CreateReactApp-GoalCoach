@@ -16,11 +16,12 @@ class SignIn extends Component {
 	}
 
 	signIn() {
-		console.log('state', this.state);
+		
 		const {email, password} = this.state;
 		firebaseApp.auth().signInWithEmailAndPassword(email, password)
 		.catch(error => this.setState({error}));
 	}
+
 	render() {
 		return (
 			<div className = "form-inline" style={{margin: '5%'}}>
